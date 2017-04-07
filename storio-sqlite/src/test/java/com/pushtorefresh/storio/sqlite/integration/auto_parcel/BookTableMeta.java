@@ -60,7 +60,18 @@ final class BookTableMeta {
 
         @NonNull
         @Override
-        protected ContentValues mapToContentValues(@NonNull Book book) {
+        protected ContentValues mapToContentValuesForInsertQuery(@NonNull Book book) {
+            return mapToContentValues(book);
+        }
+
+        @NonNull
+        @Override
+        protected ContentValues mapToContentValuesForUpdateQuery(@NonNull Book book) {
+            return mapToContentValues(book);
+        }
+
+        @NonNull
+        private ContentValues mapToContentValues(@NonNull Book book) {
             final ContentValues contentValues = new ContentValues(3);
 
             contentValues.put(COLUMN_ID, book.id());

@@ -41,8 +41,14 @@ public class PutOperationDesignTest extends OperationDesignTest {
 
         @NonNull
         @Override
-        protected ContentValues mapToContentValues(@NonNull ContentValues contentValues) {
-            return contentValues; // easy
+        protected ContentValues mapToContentValuesForInsertQuery(@NonNull ContentValues contentValues) {
+            return contentValues;
+        }
+
+        @NonNull
+        @Override
+        protected ContentValues mapToContentValuesForUpdateQuery(@NonNull ContentValues contentValues) {
+            return contentValues;
         }
     };
 

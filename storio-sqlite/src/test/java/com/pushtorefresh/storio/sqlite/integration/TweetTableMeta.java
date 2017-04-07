@@ -50,7 +50,18 @@ public class TweetTableMeta {
 
         @NonNull
         @Override
-        protected ContentValues mapToContentValues(@NonNull Tweet tweet) {
+        protected ContentValues mapToContentValuesForInsertQuery(@NonNull Tweet tweet) {
+            return mapToContentValues(tweet);
+        }
+
+        @NonNull
+        @Override
+        protected ContentValues mapToContentValuesForUpdateQuery(@NonNull Tweet tweet) {
+            return mapToContentValues(tweet);
+        }
+
+        @NonNull
+        private ContentValues mapToContentValues(@NonNull Tweet tweet) {
             final ContentValues contentValues = new ContentValues(3);
 
             contentValues.put(COLUMN_ID, tweet.id());

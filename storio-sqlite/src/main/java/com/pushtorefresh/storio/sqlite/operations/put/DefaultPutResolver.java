@@ -46,7 +46,16 @@ public abstract class DefaultPutResolver<T> extends PutResolver<T> {
      * @return non-null {@link ContentValues}.
      */
     @NonNull
-    protected abstract ContentValues mapToContentValues(@NonNull T object);
+    protected abstract ContentValues mapToContentValuesForInsertQuery(@NonNull T object);
+
+    /**
+     * Converts object of required type to {@link ContentValues}.
+     *
+     * @param object non-null object that should be converted to {@link ContentValues}.
+     * @return non-null {@link ContentValues}.
+     */
+    @NonNull
+    protected abstract ContentValues mapToContentValuesForUpdateQuery(@NonNull T object);
 
     /**
      * {@inheritDoc}
@@ -70,13 +79,13 @@ public abstract class DefaultPutResolver<T> extends PutResolver<T> {
             final PutResult putResult;
 
             try {
-                final ContentValues contentValues = mapToContentValues(object);
-
                 if (cursor.getCount() == 0) {
+                    final ContentValues contentValues = mapToContentValuesForInsertQuery(object);
                     final InsertQuery insertQuery = mapToInsertQuery(object);
                     final long insertedId = lowLevel.insert(insertQuery, contentValues);
                     putResult = PutResult.newInsertResult(insertedId, insertQuery.table(), insertQuery.affectsTags());
                 } else {
+                    final ContentValues contentValues = mapToContentValuesForUpdateQuery(object);
                     final int numberOfRowsUpdated = lowLevel.update(updateQuery, contentValues);
                     putResult = PutResult.newUpdateResult(numberOfRowsUpdated, updateQuery.table(), updateQuery.affectsTags());
                 }

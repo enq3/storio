@@ -65,8 +65,19 @@ public class UserTableMeta {
 
         @NonNull
         @Override
-        protected ContentValues mapToContentValues(@NonNull User user) {
-            final ContentValues contentValues = new ContentValues(2);
+        protected ContentValues mapToContentValuesForInsertQuery(@NonNull User user) {
+            return mapToContentValues(user);
+        }
+
+        @NonNull
+        @Override
+        protected ContentValues mapToContentValuesForUpdateQuery(@NonNull User user) {
+            return mapToContentValues(user);
+        }
+
+        @NonNull
+        private ContentValues mapToContentValues(@NonNull User user) {
+            final ContentValues contentValues = new ContentValues(3);
 
             contentValues.put(COLUMN_ID, user.id());
             contentValues.put(COLUMN_EMAIL, user.email());

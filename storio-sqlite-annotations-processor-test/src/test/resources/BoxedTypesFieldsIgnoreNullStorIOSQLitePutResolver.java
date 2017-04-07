@@ -40,7 +40,37 @@ public class BoxedTypesFieldsIgnoreNullStorIOSQLitePutResolver extends DefaultPu
      */
     @Override
     @NonNull
-    public ContentValues mapToContentValues(@NonNull BoxedTypesFieldsIgnoreNull object) {
+    public ContentValues mapToContentValuesForInsertQuery(@NonNull BoxedTypesFieldsIgnoreNull object) {
+        ContentValues contentValues = new ContentValues(6);
+
+        if (object.field1 != null) {
+            contentValues.put("field1", object.field1);
+        }
+        if (object.field2 != null) {
+            contentValues.put("field2", object.field2);
+        }
+        if (object.field3 != null) {
+            contentValues.put("field3", object.field3);
+        }
+        if (object.field4 != null) {
+            contentValues.put("field4", object.field4);
+        }
+        if (object.field5 != null) {
+            contentValues.put("field5", object.field5);
+        }
+        if (object.field6 != null) {
+            contentValues.put("field6", object.field6);
+        }
+
+        return contentValues;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @NonNull
+    public ContentValues mapToContentValuesForUpdateQuery(@NonNull BoxedTypesFieldsIgnoreNull object) {
         ContentValues contentValues = new ContentValues(6);
 
         if (object.field1 != null) {

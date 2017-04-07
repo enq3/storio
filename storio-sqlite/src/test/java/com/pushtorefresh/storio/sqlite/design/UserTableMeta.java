@@ -42,7 +42,13 @@ class UserTableMeta {
 
         @NonNull
         @Override
-        protected ContentValues mapToContentValues(@NonNull User object) {
+        protected ContentValues mapToContentValuesForInsertQuery(@NonNull User object) {
+            return mock(ContentValues.class);
+        }
+
+        @NonNull
+        @Override
+        protected ContentValues mapToContentValuesForUpdateQuery(@NonNull User object) {
             return mock(ContentValues.class);
         }
     };

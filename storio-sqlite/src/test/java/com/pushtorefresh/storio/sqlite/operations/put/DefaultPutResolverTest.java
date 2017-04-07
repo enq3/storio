@@ -88,7 +88,13 @@ public class DefaultPutResolverTest {
 
             @NonNull
             @Override
-            protected ContentValues mapToContentValues(@NonNull TestItem object) {
+            protected ContentValues mapToContentValuesForInsertQuery(@NonNull TestItem object) {
+                return TestItem.MAP_TO_CONTENT_VALUES.call(object);
+            }
+
+            @NonNull
+            @Override
+            protected ContentValues mapToContentValuesForUpdateQuery(@NonNull TestItem object) {
                 return TestItem.MAP_TO_CONTENT_VALUES.call(object);
             }
         };
@@ -187,7 +193,13 @@ public class DefaultPutResolverTest {
 
             @NonNull
             @Override
-            protected ContentValues mapToContentValues(@NonNull TestItem object) {
+            protected ContentValues mapToContentValuesForInsertQuery(@NonNull TestItem object) {
+                return TestItem.MAP_TO_CONTENT_VALUES.call(object);
+            }
+
+            @NonNull
+            @Override
+            protected ContentValues mapToContentValuesForUpdateQuery(@NonNull TestItem object) {
                 return TestItem.MAP_TO_CONTENT_VALUES.call(object);
             }
         };

@@ -40,7 +40,25 @@ public class BoxedTypesMethodsFactoryMethodStorIOSQLitePutResolver extends Defau
      */
     @Override
     @NonNull
-    public ContentValues mapToContentValues(@NonNull BoxedTypesMethodsFactoryMethod object) {
+    public ContentValues mapToContentValuesForInsertQuery(@NonNull BoxedTypesMethodsFactoryMethod object) {
+        ContentValues contentValues = new ContentValues(6);
+
+        contentValues.put("field1", object.getField1());
+        contentValues.put("field2", object.getField2());
+        contentValues.put("field3", object.getField3());
+        contentValues.put("field4", object.getField4());
+        contentValues.put("field5", object.getField5());
+        contentValues.put("field6", object.getField6());
+
+        return contentValues;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @NonNull
+    public ContentValues mapToContentValuesForUpdateQuery(@NonNull BoxedTypesMethodsFactoryMethod object) {
         ContentValues contentValues = new ContentValues(6);
 
         contentValues.put("field1", object.getField1());

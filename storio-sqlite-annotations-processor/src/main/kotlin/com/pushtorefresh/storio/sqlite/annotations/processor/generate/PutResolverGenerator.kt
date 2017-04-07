@@ -20,7 +20,8 @@ object PutResolverGenerator : Generator<StorIOSQLiteTypeMeta> {
                 .superclass(ParameterizedTypeName.get(ClassName.get("com.pushtorefresh.storio.sqlite.operations.put", "DefaultPutResolver"), className))
                 .addMethod(createMapToInsertQueryMethodSpec(typeMeta, className))
                 .addMethod(createMapToUpdateQueryMethodSpec(typeMeta, className))
-                .addMethod(createMapToContentValuesMethodSpec(typeMeta, className))
+                .addMethod(createMapToContentValuesForInsertQueryMethodSpec(typeMeta, className))
+                .addMethod(createMapToContentValuesForUpdateQueryMethodSpec(typeMeta, className))
                 .build()
 
         return JavaFile
@@ -71,8 +72,64 @@ $INDENT.build();
                 .build()
     }
 
-    private fun createMapToContentValuesMethodSpec(typeMeta: StorIOSQLiteTypeMeta, className: ClassName): MethodSpec {
+    /*private fun createMapToContentValuesMethodSpec(typeMeta: StorIOSQLiteTypeMeta, className: ClassName): MethodSpec {
         val builder = MethodSpec.methodBuilder("mapToContentValues")
+                .addJavadoc("{@inheritDoc}\n")
+                .addAnnotation(Override::class.java)
+                .addAnnotation(ANDROID_NON_NULL_ANNOTATION_CLASS_NAME)
+                .addModifiers(PUBLIC)
+                .returns(ClassName.get("android.content", "ContentValues"))
+                .addParameter(ParameterSpec.builder(className, "object")
+                        .addAnnotation(ANDROID_NON_NULL_ANNOTATION_CLASS_NAME)
+                        .build())
+                .addStatement("ContentValues contentValues = new ContentValues(\$L)", typeMeta.columns.size)
+                .addCode("\n")
+
+        typeMeta.columns.values.forEach { columnMeta ->
+            val ignoreNull = columnMeta.storIOColumn.ignoreNull
+            if (ignoreNull) {
+                builder.beginControlFlow("if (object.\$L != null)", "${columnMeta.elementName}${if (columnMeta.isMethod) "()" else ""}")
+            }
+            builder.addStatement("contentValues.put(\$S, object.\$L)", columnMeta.storIOColumn.name, "${columnMeta.elementName}${if (columnMeta.isMethod) "()" else ""}")
+            if (ignoreNull) builder.endControlFlow()
+        }
+
+        return builder
+                .addCode("\n")
+                .addStatement("return contentValues")
+                .build()
+    }*/
+
+    private fun createMapToContentValuesForInsertQueryMethodSpec(typeMeta: StorIOSQLiteTypeMeta, className: ClassName): MethodSpec {
+        val builder = MethodSpec.methodBuilder("mapToContentValuesForInsertQuery")
+                .addJavadoc("{@inheritDoc}\n")
+                .addAnnotation(Override::class.java)
+                .addAnnotation(ANDROID_NON_NULL_ANNOTATION_CLASS_NAME)
+                .addModifiers(PUBLIC)
+                .returns(ClassName.get("android.content", "ContentValues"))
+                .addParameter(ParameterSpec.builder(className, "object")
+                        .addAnnotation(ANDROID_NON_NULL_ANNOTATION_CLASS_NAME)
+                        .build())
+                .addStatement("ContentValues contentValues = new ContentValues(\$L)", typeMeta.columns.size)
+                .addCode("\n")
+
+        typeMeta.columns.values.forEach { columnMeta ->
+            val ignoreNull = columnMeta.storIOColumn.ignoreNull
+            if (ignoreNull) {
+                builder.beginControlFlow("if (object.\$L != null)", "${columnMeta.elementName}${if (columnMeta.isMethod) "()" else ""}")
+            }
+            builder.addStatement("contentValues.put(\$S, object.\$L)", columnMeta.storIOColumn.name, "${columnMeta.elementName}${if (columnMeta.isMethod) "()" else ""}")
+            if (ignoreNull) builder.endControlFlow()
+        }
+
+        return builder
+                .addCode("\n")
+                .addStatement("return contentValues")
+                .build()
+    }
+
+    private fun createMapToContentValuesForUpdateQueryMethodSpec(typeMeta: StorIOSQLiteTypeMeta, className: ClassName): MethodSpec {
+        val builder = MethodSpec.methodBuilder("mapToContentValuesForUpdateQuery")
                 .addJavadoc("{@inheritDoc}\n")
                 .addAnnotation(Override::class.java)
                 .addAnnotation(ANDROID_NON_NULL_ANNOTATION_CLASS_NAME)

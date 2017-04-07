@@ -40,7 +40,27 @@ public class PrimitiveMethodsFactoryMethodStorIOSQLitePutResolver extends Defaul
      */
     @Override
     @NonNull
-    public ContentValues mapToContentValues(@NonNull PrimitiveMethodsFactoryMethod object) {
+    public ContentValues mapToContentValuesForInsertQuery(@NonNull PrimitiveMethodsFactoryMethod object) {
+        ContentValues contentValues = new ContentValues(8);
+
+        contentValues.put("field1", object.getField1());
+        contentValues.put("field2", object.getField2());
+        contentValues.put("field3", object.getField3());
+        contentValues.put("field4", object.getField4());
+        contentValues.put("field5", object.getField5());
+        contentValues.put("field6", object.getField6());
+        contentValues.put("field7", object.getField7());
+        contentValues.put("field8", object.getField8());
+
+        return contentValues;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @NonNull
+    public ContentValues mapToContentValuesForUpdateQuery(@NonNull PrimitiveMethodsFactoryMethod object) {
         ContentValues contentValues = new ContentValues(8);
 
         contentValues.put("field1", object.getField1());
